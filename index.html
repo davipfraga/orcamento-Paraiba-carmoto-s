@@ -1,84 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orçamento Online - Paraíba Carmoto's</title>
-    <script src=""https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js</script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
-        h1 { text-align: center; color: #333; }
-        padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
-        button { margin-top: 15px; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #218838; }
-        #cronograma { margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; margin: 30px auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orçamento - Paraíba Carmotos</title>
+
+  <!-- Importa a biblioteca jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #b71c1c;
+    }
+
+    #btnWhatsApp {
+      background-color: #25D366;
+    }
+
+    #btnWhatsApp:hover {
+      background-color: #1ebe5d;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Orçamento Online - Paraíba Carmoto's</h1>
-    <form id="orcamentoForm">
-        <label for="nome">Nome do Cliente:</label>
-        <input type="text" id="nome" required>
+  <h1>Orçamento - Paraíba Carmotos</h1>
 
-        <label for="placa">Placa do Carro:</label>
-        <input type="text" id="placa" required>
-
-        <label for="modelo">Modelo do Carro:</label>
-        <input type="text" id="modelo" required>
-
-        <label for="servico">Tipo de Serviço:</label>
-        <input type="text" id="servico" required>
-
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" required>
-
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" required>
-
-        <button type="button" onclick="gerarPDF()">Gerar PDF do Orçamento</button>
-        <button type="button" onclick="abrirWhatsApp()">Enviar pelo WhatsApp</button>
-    </form>
-
-    <div id="cronograma">
-        <h2>Cronograma de Serviços</h2>
-        <p>Aqui será exibido o status dos serviços agendados.</p>
-        <ul id="listaCronograma"></ul>
-    </div>
-
-    <script>
-        async function gerarPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            const nome = document.getElementById('nome').value;
-            const placa = document.getElementById('placa').value;
-            const modelo = document.getElementById('modelo').value;
-            const servico = document.getElementById('servico').value;
-            const telefone = document.getElementById('telefone').value;
-            const email = document.getElementById('email').value;
-
-            doc.text(`Orçamento Online - Paraíba Carmoto's`, 10, 10);
-            doc.text(`Nome: ${nome}`, 10, 20);
-            doc.text(`Placa: ${placa}`, 10, 30);
-            doc.text(`Modelo: ${modelo}`, 10, 40);
-            doc.text(`Serviço: ${servico}`, 10, 50);
-            doc.text(`Telefone: ${telefone}`, 10, 60);
-            doc.text(`E-mail: ${email}`, 10, 70);
-
-            doc.save('orcamento.pdf');
-        }
-
-        function abrirWhatsApp() {
-            const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
-            if (telefone) {
-                const url = `https://wa.me/55${telefone}`;
-                window.open(url, '_blank');
-            } else {
-                alert('Digite um número válido!');
-            }
-        }
-    </script>
-</body>
-</html>
+  <form id="formOrcamento">
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" required />
