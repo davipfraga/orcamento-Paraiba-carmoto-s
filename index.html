@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orçamento - Paraíba Carmotos</title>
 
-  <!-- Importa a biblioteca jsPDF -->
+  <!-- Biblioteca para gerar PDFs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
@@ -75,6 +75,85 @@
 <body>
   <h1>Orçamento - Paraíba Carmotos</h1>
 
-  <form id="formOrcamento">
+  <form id="formOrcamento" method="POST">
     <label for="nome">Nome</label>
     <input type="text" id="nome" required />
+
+    <label for="telefone">Telefone (com DDD)</label>
+    <input type="text" id="telefone" placeholder="ex: 83999999999" required />
+
+    <label for="servico">Serviço</label>
+    <input type="text" id="servico" placeholder="Ex: Troca de óleo, revisão..." required />
+
+    <label for="valor">Valor (R$)</label>
+    <input type="number" id="valor" placeholder="Ex: 250" required />
+
+    <button type="button" id="gerarPDF">Gerar PDF</button>
+    <button type="button" id="btnWhatsApp">Abrir no WhatsApp</button>
+  </form>
+
+  <script>
+    // Função para gerar PDF
+    document.getElementById("gerarPDF").addEventListener("click", function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const nome = document.getElementById("nome").value;
+      const telefone = document.getElementById("telefone").value;
+      const servico = document.getElementById("servico").value;
+      const valor = document.getElementById("valor").value;
+
+      if (!nome || !telefone || !servico || !valor) {
+        alert("Por favor, preencha todos os campos antes de gerar o PDF!");
+        return;
+      }
+
+      doc.text("Orçamento - Paraíba Carmotos", 10, 10);
+      doc.text(`Nome: ${nome}`, 10, 20);
+      doc.text(`Telefone: ${telefone}`, 10, 30);
+      doc.text(`Serviço: ${servico}`, 10, 40);
+      doc.text(`Valor: R$ ${valor}`, 10, 50);
+      doc.text("Obrigado por solicitar um orçamento conosco!", 10, 70);
+
+      doc.save(`Orçamento-${nome}.pdf`);
+    });
+
+    // Função para abrir WhatsApp
+    document.getElementById("btnWhatsApp").addEventListener("click", function () {
+      const telefone = document.getElementById("telefone").value.trim();
+
+      if (!telefone) {
+        alert("Digite o número de telefone para abrir o WhatsApp!");
+        return;
+      }
+
+      const numeroLimpo = telefone.replace(/\D/g, "");
+      const mensagem = encodeURIComponent("Olá, vi o orçamento e gostaria de mais informações!");
+      const url = `https://wa.me/${numeroLimpo}?text=${mensagem}`;
+      window.open(url, "_blank");
+    });
+
+    // (🔜 Próxima Etapa) Envio automático para Google Sheets
+    // Aqui ficará a função de envio via Google Apps Script.
+    // Exemplo:
+    /*
+    document.getElementById("formOrcamento").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const data = {
+        nome: document.getElementById("nome").value,
+        telefone: document.getElementById("telefone").value,
+        servico: document.getElementById("servico").value,
+        valor: document.getElementById("valor").value
+      };
+      await fetch("https://script.google.com/macros/s/AKfycbz_yLaHGsJ30lJal9CZobf1ZKcLlpPFvDQWJ7wMzsTMRWEACx992exT7sKW3eSypoLA/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      alert("✅ Orçamento salvo com sucesso!");
+    });
+    */
+  </script>
+</body>
+</html>
