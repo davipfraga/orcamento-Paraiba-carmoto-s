@@ -1,159 +1,75 @@
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orçamento - Paraíba Carmotos</title>
-
-  <!-- Biblioteca para gerar PDFs -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f7f7f7;
-      color: #333;
-    }
-
-    h1 {
-      text-align: center;
-      color: #d32f2f;
-    }
-
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
-      background-color: #d32f2f;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background-color: #b71c1c;
-    }
-
-    #btnWhatsApp {
-      background-color: #25D366;
-    }
-
-    #btnWhatsApp:hover {
-      background-color: #1ebe5d;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Orçamento da Oficina</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        form { max-width: 600px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+    </style>
 </head>
-
 <body>
-  <h1>Orçamento - Paraíba Carmotos</h1>
+    <h2>Formulário de Orçamento - Oficina</h2>
+    <form id="orcamentoForm">
+        <label for="nome">Nome do Cliente:</label>
+        <input type="text" id="nome" name="nome" required>
 
-  <form id="formOrcamento" method="POST">
-    <label for="nome">Nome</label>
-    <input type="text" id="nome" required />
+        <label for="telefone">Telefone (WhatsApp):</label>
+        <input type="text" id="telefone" name="telefone" required>
 
-    <label for="telefone">Telefone (com DDD)</label>
-    <input type="text" id="telefone" placeholder="ex: 83999999999" required />
+        <label for="modelo">Modelo do Carro:</label>
+        <input type="text" id="modelo" name="modelo" required>
 
-    <label for="servico">Serviço</label>
-    <input type="text" id="servico" placeholder="Ex: Troca de óleo, revisão..." required />
+        <label for="placa">Placa do Carro:</label>
+        <input type="text" id="placa" name="placa" required>
 
-    <label for="valor">Valor (R$)</label>
-    <input type="number" id="valor" placeholder="Ex: 250" required />
+        <label for="servico">Serviço Desejado:</label>
+        <textarea id="servico" name="servico" rows="3" required></textarea>
 
-    <button type="button" id="gerarPDF">Gerar PDF</button>
-    <button type="button" id="btnWhatsApp">Abrir no WhatsApp</button>
-  </form>
+        <label for="valor">Valor do Orçamento (R$):</label>
+        <input type="number" id="valor" name="valor" required>
 
-  <script>
-    // Função para gerar PDF
-    document.getElementById("gerarPDF").addEventListener("click", function () {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+        <button type="submit">Enviar para Google Planilhas</button>
+        <button type="button" onclick="gerarPDF()">Gerar PDF</button>
+        <button type="button" onclick="enviarWhatsApp()">Enviar via WhatsApp</button>
+    </form>
 
-      const nome = document.getElementById("nome").value;
-      const telefone = document.getElementById("telefone").value;
-      const servico = document.getElementById("servico").value;
-      const valor = document.getElementById("valor").value;
+    <script>
+        // Submeter dados para Google Planilhas via Google Apps Script Web App
+        document.getElementById("orcamentoForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch("https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyJtESKB4ScDCRVbJLerBQLPUM_iW4E0vUYs8T3Blo/dev/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert("Dados enviados com sucesso!");
+            })
+            .catch(error => {
+                alert("Erro ao enviar os dados.");
+                console.error(error);
+            });
+        });
 
-      if (!nome || !telefone || !servico || !valor) {
-        alert("Por favor, preencha todos os campos antes de gerar o PDF!");
-        return;
-      }
+        // Função para gerar PDF (simples)
+        function gerarPDF() {
+            alert("Função de geração de PDF será implementada com biblioteca como jsPDF.");
+        }
 
-      doc.text("Orçamento - Paraíba Carmotos", 10, 10);
-      doc.text(`Nome: ${nome}`, 10, 20);
-      doc.text(`Telefone: ${telefone}`, 10, 30);
-      doc.text(`Serviço: ${servico}`, 10, 40);
-      doc.text(`Valor: R$ ${valor}`, 10, 50);
-      doc.text("Obrigado por solicitar um orçamento conosco!", 10, 70);
-
-      doc.save(`Orçamento-${nome}.pdf`);
-    });
-
-    // Função para abrir WhatsApp
-    document.getElementById("btnWhatsApp").addEventListener("click", function () {
-      const telefone = document.getElementById("telefone").value.trim();
-
-      if (!telefone) {
-        alert("Digite o número de telefone para abrir o WhatsApp!");
-        return;
-      }
-
-      const numeroLimpo = telefone.replace(/\D/g, "");
-      const mensagem = encodeURIComponent("Olá, vi o orçamento e gostaria de mais informações!");
-      const url = `https://wa.me/${numeroLimpo}?text=${mensagem}`;
-      window.open(url, "_blank");
-    });
-
-    // (🔜 Próxima Etapa) Envio automático para Google Sheets
-    // Aqui ficará a função de envio via Google Apps Script.
-    // Exemplo:
-    /*
-    document.getElementById("formOrcamento").addEventListener("submit", async function (event) {
-      event.preventDefault();
-      const data = {
-        nome: document.getElementById("nome").value,
-        telefone: document.getElementById("telefone").value,
-        servico: document.getElementById("servico").value,
-        valor: document.getElementById("valor").value
-      };
-      await fetch("https://script.google.com/macros/s/AKfycbz_yLaHGsJ30lJal9CZobf1ZKcLlpPFvDQWJ7wMzsTMRWEACx992exT7sKW3eSypoLA/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      alert("✅ Orçamento salvo com sucesso!");
-    });
-    */
-  </script>
+        // Função para enviar via WhatsApp
+        function enviarWhatsApp() {
+            const telefone = document.getElementById("telefone").value;
+            const nome = document.getElementById("nome").value;
+            const mensagem = `Olá ${nome}, segue o orçamento do seu veículo.`;
+            const link = `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`;
+            window.open(link, "_blank");
+        }
+    </script>
 </body>
 </html>
