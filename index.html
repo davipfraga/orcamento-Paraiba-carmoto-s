@@ -1,16 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orçamento Online - Paraíba Carmoto's</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jsp</script>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
         h1 { text-align: center; color: #333; }
-        form { background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         label { display: block; margin-top: 10px; font-weight: bold; }
-        input, select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
         button { margin-top: 15px; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #218838; }
         #cronograma { margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; margin: 30px auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
@@ -20,33 +20,38 @@
     <h1>Orçamento Online - Paraíba Carmoto's</h1>
     <form id="orcamentoForm">
         <label for="nome">Nome do Cliente:</label>
-        <input type="text" id="nome" name="nome" required>
+        <input type="text" id="nome" required>
 
         <label for="placa">Placa do Carro:</label>
-        <input type="text" id="placa" name="placa" required>
+        <input type="text" id="placa" required>
 
         <label for="modelo">Modelo do Carro:</label>
-        <input type="text" id="modelo" name="modelo" required>
+        <input type="text" id="modelo" required>
 
         <label for="servico">Tipo de Serviço:</label>
-        <input type="text" id="servico" name="servico" required>
+        <input type="text" id="servico" required>
 
         <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone" required>
+        <input type="text" id="telefone" required>
 
         <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" required>
 
         <button type="button" onclick="gerarPDF()">Gerar PDF do Orçamento</button>
+        <button type="button" onclick="abrirWhatsApp()">Enviar pelo WhatsApp</button>
     </form>
 
     <div id="cronograma">
         <h2>Cronograma de Serviços</h2>
         <p>Aqui será exibido o status dos serviços agendados.</p>
+        <ul id="listaCronograma"></ul>
     </div>
 
     <script>
-        function gerarPDF() {
+        async function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
             const nome = document.getElementById('nome').value;
             const placa = document.getElementById('placa').value;
             const modelo = document.getElementById('modelo').value;
@@ -54,20 +59,25 @@
             const telefone = document.getElementById('telefone').value;
             const email = document.getElementById('email').value;
 
-            const conteudo = `Orçamento Online - Paraíba Carmoto's
+            doc.text(`Orçamento Online - Paraíba Carmoto's`, 10, 10);
+            doc.text(`Nome: ${nome}`, 10, 20);
+            doc.text(`Placa: ${placa}`, 10, 30);
+            doc.text(`Modelo: ${modelo}`, 10, 40);
+            doc.text(`Serviço: ${servico}`, 10, 50);
+            doc.text(`Telefone: ${telefone}`, 10, 60);
+            doc.text(`E-mail: ${email}`, 10, 70);
 
-Nome: ${nome}
-Placa: ${placa}
-Modelo: ${modelo}
-Serviço: ${servico}
-Telefone: ${telefone}
-E-mail: ${email}`;
+            doc.save('orcamento.pdf');
+        }
 
-            const blob = new Blob([conteudo], { type: 'application/pdf' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = 'orcamento.pdf';
-            link.click();
+        function abrirWhatsApp() {
+            const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+            if (telefone) {
+                const url = `https://wa.me/55${telefone}`;
+                window.open(url, '_blank');
+            } else {
+                alert('Digite um número válido!');
+            }
         }
     </script>
 </body>
