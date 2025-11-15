@@ -1,81 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orçamento - Paraíba Carmotos</title>
+<style>
+  :root{
+    --brand:#0a3d91;         /* Azul do título */
+    --accent:#c62828;        /* Vermelho da linha e botão PDF */
+    --accent-d:#ab1f1f;
+    --ok:#16a34a;            /* Verde WhatsApp */
+    --ok-d:#11823b;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --txt:#0f172a;
+    --pill:#f3f4f6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Helvetica,Arial;color:var(--txt);background:var(--bg);}
+  .container{max-width:1100px;margin:28px auto;padding:0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.06);overflow:hidden}
 
-/* ========= AJUSTES APENAS PARA MOBILE (≤768px) ========= */
+  /* ===== Cabeçalho com logo ===== */
+  .header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px;border-bottom:1px solid var(--line)}
+  .brand-left{display:flex;gap:0px;align-items:center}
+  .logo{
+    width:140px;height:70px;object-fit:contain;display:block;
+  }
+  .title{font-size:22px;font-weight:700;color:var(--brand);margin:0}
+  .divider{height:3px;background:var(--accent);margin:0 22px 8px;border:0}
 
-  /* Inputs: evitam zoom no iOS e ocupam largura cheia no mobile */
-  input, select, textarea {
-    font-size: 16px;
-    box-sizing: border-box;
+  .company{font-size:12px;color:#6b7280;line-height:1.4;text-align:right}
+
+  .content{padding:16px 22px 0}
+
+  /* ===== Form ===== */
+  h3.sec{margin:10px 0 8px;font-size:16px;color:#1f2937}
+  label{font-size:12px;color:var(--muted)}
+  .grid{display:grid;gap:10px}
+  .cols-4{grid-template-columns:2fr 2fr 2fr 1fr}
+  .cols-3{grid-template-columns:1.2fr 1fr 1fr}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  input::placeholder{color:#9aa0a6}
+
+  /* ===== Tabelas ===== */
+  .box{border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:6px;background:#fff}
+  .tbl{width:100%;border-collapse:collapse}
+  .tbl th,.tbl td{border-bottom:1px solid var(--line);padding:10px;vertical-align:middle}
+  .tbl th{background:#fafbfc;text-align:left;font-size:13px;color:#374151}
+  .qty{width:80px}
+  .price{width:160px}
+  .actions{width:140px}
+  .row-actions{display:flex;gap:6px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:600}
+  .btn.small{padding:6px 10px;font-size:12px}
+  .btn.ghost{background:#fff}
+  .btn.danger{background:#ef4444;color:#fff;border-color:#ef4444}
+  .btn.gray{background:#f3f4f6}
+  .btn.red{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.red:hover{background:var(--accent-d)}
+  .btn.green{background:var(--ok);color:#fff;border-color:var(--ok)}
+  .btn.green:hover{background:var(--ok-d)}
+  .addbar{margin-top:8px}
+
+  /* Totais + botões */
+  .footer-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;margin:14px 0 18px}
+  .totals{margin-right:auto;text-align:right}
+  .totals .pill{display:inline-block;background:var(--pill);border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin-left:8px;font-size:14px}
+  .legal{border-top:1px solid var(--line);padding:12px 22px;color:var(--muted);font-size:12px;text-align:center;background:#fafafa}
+
+  /* ===== Impressão (papel timbrado) ===== */
+  @media print{
+    @page { size: A4; margin: 16mm 14mm 16mm 14mm; }
+    body{background:#fff}
+    .no-print{display:none !important}
+    .card{border:0;box-shadow:none}
+    .divider{margin:6px 0 8px}
+    .footer-actions{margin:10px 0}
+    .legal{background:#fff}
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="orcamento">
+
+      <!-- Cabeçalho (tela + impressão) -->
+      <div class="header">
+        <div class="brand-left">
+          <!-- Substitua LOGO_URL_AQUI pela sua imagem -->
+         <img class="logo" src="logo.png.png" alt<h1 class="title">Paraíba Carmoto's</h1>
+        </div>
+        <div class="company">
+          CNPJ: 32.408.418/0001-29<br/>
+          TEL: (27) 99926-9229<br/>
+          Rua Conceição do Castelo, 11 – Nova Almeida<br/>
+          CEP: 29182-495 – Serra/ES
+        </div>
+      </div>
+      <hr class="divider"/>
+
+      <div class="content">
+        <!-- Informações do Cliente -->
+        <h3 class="sec">Informações do Cliente</h3>
+        <div class="grid cols-4">
+          <div><label>Nome do Cliente</label><input id="cliNome" placeholder="Nome de Cliente"></div>
+          <div><label>Telefone</label><input id="cliTel" placeholder="(27) 9XXXX-XXXX"></div>
+          <div><label>Veículo</label><input id="cliVeiculo" placeholder="Modelo / Ano"></div>
+          <div><label>Placa</label><input id="cliPlaca" placeholder="AAA0A00"></div>
+        </div>
+        <div class="grid cols-3" style="margin-top:10px">
+          <div><label>Data</label><input id="cliData" type="date"></div>
+          <div style="grid-column: span 2;"><label>Condição de pagamento (opcional)</label><input id="cliPagamento" placeholder="Ex.: 50% de entrada + 50% na entrega"></div>
+        </div>
+
+        <!-- Peças -->
+        <h3 class="sec" style="margin-top:18px">Peças</h3>
+        <div class="box">
+          <table class="table mobile-card-table" id="tbl-pecas">
+            <thead>
+              <tr>
+                <th class="qty">Qtd</th>
+                <th>Descrição</th>
+                <th class="price">Valor Unit. (R$)</th>
+                <th class="price">Valor Total (R$)</th>
+                <th class="actions no-print">Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="addbar no-print">
+            <button class="btn gray" onclick="addRow('pecas')">+ Adicionar Peça</button>
+          </div>
+        </div>
+
+        <!-- Serviços -->
+        <h3 class="sec" style="margin-top:18px">Serviços</h3>
+        <div class="box">
+          <table class="table mobile-card-table" id="tbl-servicos">
+            <thead>
+              <tr>
+                <th class="qty">Qtd</th>
+                <th>Descrição</th>
+                <th class="price">Valor Unit. (R$)</th>
+                <th class="price">Valor Total (R$)</th>
+                <th class="actions no-print">Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="addbar no-print">
+            <button class="btn gray" onclick="addRow('servicos')">+ Adicionar Serviço</button>
+          </div>
+        </div>
+
+        <!-- Totais + Ações -->
+        <div class="footer-actions">
+          <div class="totals">
+            <span class="pill" id="tp">Total Peças: R$ 0,00</span>
+            <span class="pill" id="ts">Total Serviços: R$ 0,00</span>
+            <span class="pill" id="tg"><strong>Total Geral: R$ 0,00</strong></span>
+          </div>
+          <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn red"   onclick="window.print()">🧾 Gerar PDF</button>
+            <button class="btn green" onclick="shareWhatsApp()">🟢 Enviar via WhatsApp</button>
+            <button class="btn danger"onclick="limparTudo()">🗑️ Limpar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="legal">© 2025 Paraíba Carmotos · Todos os direitos reservados.</div>
+    </div>
+  </div>
+
+<script>
+  // ====== Utilidades BRL ======
+  const money = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+  const formatBRL = n => money.format(n||0);
+  function parseBRL(v){
+    if(typeof v==='number') return v;
+    if(!v) return 0;
+    v = (''+v).replace(/\./g,'').replace(',', '.').replace(/[^0-9.-]/g,'');
+    const n = parseFloat(v);
+    return isNaN(n)?0:n;
   }
 
-  /* Ações principais (Gerar PDF / WhatsApp / Limpar): empilha no mobile.
-     No desktop não muda (a regra de colunas só vale acima de 768px). */
-  .footer-actions {
-    display: grid;
-    gap: 10px;
+  // ====== Linhas dinâmicas ======
+  function addRow(tipo){
+    const tbody = document.querySelector(`#tbl-${tipo} tbody`);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="number" min="1" value="1" class="qty" oninput="recalc()"></td>
+      <td><input placeholder="Descrição" oninput="recalc()"></td>
+      <td><input class="price" placeholder="0,00" oninput="recalc()"></td>
+      <td class="total">R$ 0,00</td>
+      <td class="no-print">
+        <div class="row-actions">
+          <button class="btn small" onclick="dupRow(this)">↔️ Duplicar</button>
+          <button class="btn small danger" onclick="delRow(this)">Remover</button>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+    recalc();
   }
-  @media (min-width: 768px) {
-    .footer-actions {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: center;
-    }
+  function dupRow(btn){
+    const tr = btn.closest('tr');
+    const clone = tr.cloneNode(true);
+    tr.parentNode.insertBefore(clone, tr.nextSibling);
+    recalc();
+  }
+  function delRow(btn){
+    btn.closest('tr').remove();
+    recalc();
   }
 
-  /* Header fluido: 1 coluna no mobile; desktop fica como já está */
-  .header {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: center;
+  // ====== Totais ======
+  function recalc(){
+    const sum = (id)=>{
+      let total = 0;
+      document.querySelectorAll(`#tbl-${id} tbody tr`).forEach(tr=>{
+        const q = parseFloat(tr.querySelector('.qty').value||0);
+        const p = parseBRL(tr.querySelector('.price').value);
+        const t = (q>0?q:0)*(p>0?p:0);
+        tr.querySelector('.total').textContent = formatBRL(t);
+        total += t;
+      });
+      return total;
+    };
+    const tp = sum('pecas');
+    const ts = sum('servicos');
+    document.getElementById('tp').textContent = `Total Peças: ${formatBRL(tp)}`;
+    document.getElementById('ts').textContent = `Total Serviços: ${formatBRL(ts)}`;
+    document.getElementById('tg').innerHTML   = `<strong>Total Geral: ${formatBRL(tp+ts)}</strong>`;
   }
-  .header .company { text-align: right; }
-  @media (max-width: 600px){
-    .header { grid-template-columns: 1fr; }
-    .header .company { text-align: left; }
+
+  // ====== Serialização ======
+  function dados(){
+    const rows = (id)=>[...document.querySelectorAll(`#tbl-${id} tbody tr`)].map(tr=>({
+      qtd: tr.querySelector('.qty').value,
+      desc: tr.querySelector('td:nth-child(2) input').value,
+      unit: tr.querySelector('.price').value,
+      total: tr.querySelector('.total').textContent
+    }));
+    return {
+      cliente:{
+        nome: document.getElementById('cliNome').value,
+        tel: document.getElementById('cliTel').value,
+        veiculo: document.getElementById('cliVeiculo').value,
+        placa: document.getElementById('cliPlaca').value,
+        data: document.getElementById('cliData').value,
+        pagamento: document.getElementById('cliPagamento').value
+      },
+      pecas: rows('pecas'),
+      servicos: rows('servicos'),
+      totais:{
+        pecas: document.getElementById('tp').textContent.replace('Total Peças: ',''),
+        servicos: document.getElementById('ts').textContent.replace('Total Serviços: ',''),
+        geral: document.getElementById('tg').innerText.replace('Total Geral: ','')
+      }
+    };
   }
 
-  /* Tabela -> Card no mobile: NÃO altera o desktop */
-  @media (max-width: 768px){
-    .mobile-card-table thead { display: none; }
-    .mobile-card-table,
-    .mobile-card-table tbody,
-    .mobile-card-table tr,
-    .mobile-card-table td {
-      display: block;
-      width: 100%;
-    }
-    .mobile-card-table tr {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 12px;
-    }
-    /* Cada célula vira linha “rótulo + valor” */
-    .mobile-card-table td {
-      display: grid;
-      grid-template-columns: 120px 1fr; /* rótulo + valor */
-      gap: 10px;
-      border: 0;
-      padding: 8px 0;
-      white-space: normal;
-    }
-    /* Rótulos automáticos por ordem da tabela (ajuste se mudar as colunas) */
-    .mobile-card-table td:nth-child(1)::before { content: "Qtd";         font-weight: 600; color: #374151; }
-    .mobile-card-table td:nth-child(2)::before { content: "Descrição";   font-weight: 600; color: #374151; }
-    .mobile-card-table td:nth-child(3)::before { content: "Valor Unit."; font-weight: 600; color: #374151; }
-    .mobile-card-table td:nth-child(4)::before { content: "Valor Total"; font-weight: 600; color: #374151; }
-    .mobile-card-table td:nth-child(5)::before { content: "Ações";       font-weight: 600; color: #374151; }
+  // ====== WhatsApp ======
+  function shareWhatsApp(){
+    recalc();
+    const d = dados();
+    let msg = `*Orçamento - Paraíba Carmotos*\n`+
+      `Cliente: ${d.cliente.nome}\n`+
+      `Tel: ${d.cliente.tel}\n`+
+      `Veículo: ${d.cliente.veiculo} - Placa: ${d.cliente.placa}\n`+
+      (d.cliente.data?`Data: ${new Date(d.cliente.data).toLocaleDateString('pt-BR')}\n`:``)+
+      (d.cliente.pagamento?`Pagamento: ${d.cliente.pagamento}\n`:``)+
+      `\n*Peças*\n`+
+      (d.pecas.length? d.pecas.map(i=>`- ${i.qtd}x ${i.desc} — ${i.unit} = ${i.total}`).join('\n') : '—')+
+      `\n\n*Serviços*\n`+
+      (d.servicos.length? d.servicos.map(i=>`- ${i.qtd}x ${i.desc} — ${i.unit} = ${i.total}`).join('\n') : '—')+
+      `\n\nTotais: Peças ${d.totais.pecas} | Serviços ${d.totais.servicos} | *Geral ${d.totais.geral}*`;
+    const url = `https://wa.me/${telefone}texte=${encodeURIComponent(msg)}`;
+    window.open(url,'_blank');
+  }
 
-    /* Inputs ocupam a coluna do “valor” */
-    .mobile-card-table td > input,
-    .mobile-card-table td > select {
-      width: 100%;
-    }
+  // ====== Salvar / Carregar / Limpar ======
+  const STORAGE_KEY = 'orc_paraiba_v2';
+  function salvarLocal(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dados()));
+    alert('Orçamento salvo neste navegador.');
+  }
+  function carregarLocal(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){ alert('Nenhum orçamento salvo.'); return; }
+    const d = JSON.parse(raw);
 
-    /* Se dentro da coluna “Ações” você usa um container de botões */
-    .mobile-card-table .row-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      grid-column: 1 / -1;
-    }
+    // Cliente
+    document.getElementById('cliNome').value      = d.cliente?.nome || '';
+    document.getElementById('cliTel').value       = d.cliente?.tel || '';
+    document.getElementById('cliVeiculo').value   = d.cliente?.veiculo || '';
+    document.getElementById('cliPlaca').value     = d.cliente?.placa || '';
+    document.getElementById('cliData').value      = d.cliente?.data || '';
+    document.getElementById('cliPagamento').value = d.cliente?.pagamento || '';
+
+    // Tabelas
+    const fill = (id, rows)=>{
+      const tbody = document.querySelector(`#tbl-${id} tbody`);
+      tbody.innerHTML='';
+      (rows||[]).forEach(r=>{
+        addRow(id);
+        const tr = tbody.lastElementChild;
+        tr.querySelector('.qty').value = r.qtd || 1;
+        tr.querySelector('td:nth-child(2) input').value = r.desc || '';
+        tr.querySelector('.price').value = r.unit || '';
+      });
+      recalc();
+    };
+    fill('pecas', d.pecas);
+    fill('servicos', d.servicos);
+    recalc();
+  }
+  function limparTudo(){
+    if(!confirm('Limpar todos os dados do orçamento?')) return;
+    ['cliNome','cliTel','cliVeiculo','cliPlaca','cliData','cliPagamento'].forEach(id=>document.getElementById(id).value='');
+    document.querySelector('#tbl-pecas tbody').innerHTML='';
+    document.querySelector('#tbl-servicos tbody').innerHTML='';
+    recalc();
+  }
+
+  // Inicializa com 1 linha em cada seção
+  addRow('pecas'); addRow('servicos');
+</script>
+</body>
+</html>
