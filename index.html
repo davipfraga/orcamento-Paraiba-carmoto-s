@@ -80,6 +80,89 @@
     .divider{margin:6px 0 8px}
     .footer-actions{margin:10px 0}
     .legal{background:#fff}
+  
+  
+/* ========= AJUSTES APENAS PARA MOBILE (≤768px) ========= */
+
+  /* Inputs: evitam zoom no iOS e ocupam largura cheia no mobile */
+  input, select, textarea {
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Ações principais (Gerar PDF / WhatsApp / Limpar): empilha no mobile.
+     No desktop não muda (a regra de colunas só vale acima de 768px). */
+  .footer-actions {
+    display: grid;
+    gap: 10px;
+  }
+  @media (min-width: 768px) {
+    .footer-actions {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+    }
+  }
+
+  /* Header fluido: 1 coluna no mobile; desktop fica como já está */
+  .header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: center;
+  }
+  .header .company { text-align: right; }
+  @media (max-width: 600px){
+    .header { grid-template-columns: 1fr; }
+    .header .company { text-align: left; }
+  }
+
+  /* Tabela -> Card no mobile: NÃO altera o desktop */
+  @media (max-width: 768px){
+    .mobile-card-table thead { display: none; }
+    .mobile-card-table,
+    .mobile-card-table tbody,
+    .mobile-card-table tr,
+    .mobile-card-table td {
+      display: block;
+      width: 100%;
+    }
+    .mobile-card-table tr {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    /* Cada célula vira linha “rótulo + valor” */
+    .mobile-card-table td {
+      display: grid;
+      grid-template-columns: 120px 1fr; /* rótulo + valor */
+      gap: 10px;
+      border: 0;
+      padding: 8px 0;
+      white-space: normal;
+    }
+    /* Rótulos automáticos por ordem da tabela (ajuste se mudar as colunas) */
+    .mobile-card-table td:nth-child(1)::before { content: "Qtd";         font-weight: 600; color: #374151; }
+    .mobile-card-table td:nth-child(2)::before { content: "Descrição";   font-weight: 600; color: #374151; }
+    .mobile-card-table td:nth-child(3)::before { content: "Valor Unit."; font-weight: 600; color: #374151; }
+    .mobile-card-table td:nth-child(4)::before { content: "Valor Total"; font-weight: 600; color: #374151; }
+    .mobile-card-table td:nth-child(5)::before { content: "Ações";       font-weight: 600; color: #374151; }
+
+    /* Inputs ocupam a coluna do “valor” */
+    .mobile-card-table td > input,
+    .mobile-card-table td > select {
+      width: 100%;
+    }
+
+    /* Se dentro da coluna “Ações” você usa um container de botões */
+    .mobile-card-table .row-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      grid-column: 1 / -1;
+    }
+
   }
 </style>
 </head>
