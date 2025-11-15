@@ -278,7 +278,7 @@
       `\n\n*Serviços*\n`+
       (d.servicos.length? d.servicos.map(i=>`- ${i.qtd}x ${i.desc} — ${i.unit} = ${i.total}`).join('\n') : '—')+
       `\n\nTotais: Peças ${d.totais.pecas} | Serviços ${d.totais.servicos} | *Geral ${d.totais.geral}*`;
-    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/${telefone}texte=${encodeURIComponent(msg)}`;
     window.open(url,'_blank');
   }
 
