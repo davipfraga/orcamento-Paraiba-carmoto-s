@@ -91,7 +91,7 @@
       <div class="header">
         <div class="brand-left">
           <!-- Substitua LOGO_URL_AQUI pela sua imagem -->
-         <img class="logo" src="logo.png.png" alt<h1 class="title">Paraíba Carmoto's</h1>
+         <img class="logo" src="logo.png.png" alt<h1 class="title">Paraíba Carmotos</h1>
         </div>
         <div class="company">
           CNPJ: 32.408.418/0001-29<br/>
@@ -107,7 +107,7 @@
         <h3 class="sec">Informações do Cliente</h3>
         <div class="grid cols-4">
           <div><label>Nome do Cliente</label><input id="cliNome" placeholder="Nome de Cliente"></div>
-          <div><label>Telefone</label><input id="cliTel" placeholder="(27) 9XXXX-XXXX"></div>
+          <div><label>Telefone (DDD + número)</label><input id="cliTel" placeholder="(27) 9XXXX-XXXX"></div>
           <div><label>Veículo</label><input id="cliVeiculo" placeholder="Modelo / Ano"></div>
           <div><label>Placa</label><input id="cliPlaca" placeholder="AAA0A00"></div>
         </div>
@@ -119,7 +119,7 @@
         <!-- Peças -->
         <h3 class="sec" style="margin-top:18px">Peças</h3>
         <div class="box">
-          <table class="table mobile-card-table" id="tbl-pecas">
+          <table class="tbl" id="tbl-pecas">
             <thead>
               <tr>
                 <th class="qty">Qtd</th>
@@ -139,7 +139,7 @@
         <!-- Serviços -->
         <h3 class="sec" style="margin-top:18px">Serviços</h3>
         <div class="box">
-          <table class="table mobile-card-table" id="tbl-servicos">
+          <table class="tbl" id="tbl-servicos">
             <thead>
               <tr>
                 <th class="qty">Qtd</th>
@@ -278,7 +278,7 @@
       `\n\n*Serviços*\n`+
       (d.servicos.length? d.servicos.map(i=>`- ${i.qtd}x ${i.desc} — ${i.unit} = ${i.total}`).join('\n') : '—')+
       `\n\nTotais: Peças ${d.totais.pecas} | Serviços ${d.totais.servicos} | *Geral ${d.totais.geral}*`;
-    const url = `https://wa.me/${telefone}texte=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
     window.open(url,'_blank');
   }
 
@@ -331,3 +331,4 @@
 </script>
 </body>
 </html>
+
