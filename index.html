@@ -320,6 +320,190 @@ textarea{
     background:#fff;
   }
 }
+
+/* ===== Ajuste Mobile / Celular ===== */
+@media (max-width: 768px){
+
+  html,body{
+    overflow-x:hidden;
+  }
+
+  .container{
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:8px;
+  }
+
+  .card{
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  .header{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:16px 12px 10px;
+    gap:10px;
+  }
+
+  .brand-left{
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .logo{
+    width:115px;
+    height:80px;
+  }
+
+  .title{
+    font-size:26px;
+    line-height:1.1;
+    text-align:center;
+  }
+
+  .company{
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    line-height:1.45;
+    word-break:normal;
+  }
+
+  .divider{
+    margin:0 12px 8px;
+  }
+
+  .content{
+    padding:14px 12px 0;
+  }
+
+  h3.sec{
+    font-size:18px;
+    margin-top:16px;
+  }
+
+  .grid{
+    display:block;
+  }
+
+  .grid > div{
+    margin-bottom:10px;
+  }
+
+  input,
+  textarea{
+    font-size:16px;
+    min-height:44px;
+  }
+
+  .box{
+    padding:10px;
+    border-radius:10px;
+  }
+
+  .tbl,
+  .tbl thead,
+  .tbl tbody,
+  .tbl th,
+  .tbl td,
+  .tbl tr{
+    display:block;
+    width:100%;
+  }
+
+  .tbl thead{
+    display:none;
+  }
+
+  .tbl tr{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px;
+    margin-bottom:12px;
+    background:#fff;
+  }
+
+  .tbl td{
+    border-bottom:0;
+    padding:6px 0;
+  }
+
+  .tbl td::before{
+    content:attr(data-label);
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:#374151;
+    margin-bottom:4px;
+  }
+
+  .tbl td.total{
+    font-size:18px;
+    font-weight:700;
+  }
+
+  .qty,
+  .price,
+  .actions{
+    width:100%;
+  }
+
+  .row-actions{
+    display:flex;
+    gap:8px;
+    width:100%;
+  }
+
+  .row-actions .btn{
+    flex:1;
+    justify-content:center;
+  }
+
+  .addbar .btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .footer-actions{
+    display:block;
+    margin:16px 0;
+  }
+
+  .totals{
+    margin:0 0 12px;
+    text-align:left;
+  }
+
+  .totals .pill{
+    display:block;
+    width:100%;
+    margin:8px 0;
+    text-align:center;
+    font-size:15px;
+  }
+
+  .footer-actions .no-print{
+    display:flex !important;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .footer-actions .btn{
+    width:100%;
+    justify-content:center;
+    min-height:46px;
+    font-size:15px;
+  }
+
+  .legal{
+    font-size:11px;
+    padding:10px;
+  }
+}
+
 </style>
 </head>
 
@@ -482,22 +666,22 @@ function addRow(tipo){
   const tr = document.createElement('tr');
 
   tr.innerHTML = `
-    <td>
+    <td data-label="Qtd">
       <input type="number" min="1" value="1" class="qty" oninput="recalc()">
     </td>
 
-    <td>
+    <td data-label="Descrição">
       <textarea class="desc" placeholder="Descrição" rows="2" oninput="autoGrow(this); recalc()"></textarea>
       <div class="print-text">Descrição</div>
     </td>
 
-    <td>
+    <td data-label="Valor Unit. (R$)">
       <input class="price" placeholder="0,00" oninput="recalc()">
     </td>
 
-    <td class="total">R$ 0,00</td>
+    <td class="total" data-label="Valor Total (R$)">R$ 0,00</td>
 
-    <td class="no-print">
+    <td class="no-print" data-label="Ações">
       <div class="row-actions">
         <button class="btn small" onclick="dupRow(this)">↔️ Duplicar</button>
         <button class="btn small danger" onclick="delRow(this)">Remover</button>
